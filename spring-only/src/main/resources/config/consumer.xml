@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	   <context:annotation-config />
+	   <context:component-scan base-package="com.winchampion.credit.pure" />
+		
+	  <!-- 第三方MQ工厂: ConnectionFactory -->
+       <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+       		<property name="brokerURL" value="tcp://localhost:61616"></property>
+       </bean>
+
+	    <bean id="connectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+             <!-- 目标ConnectionFactory对应真实的可以产生JMS Connection的ConnectionFactory -->
+             <property name="targetConnectionFactory" ref="targetConnectionFactory" />
+	    </bean>
+	    
+	    <!--这个是目的地Queue-->
+       <bean id="msgQueue" class="org.apache.activemq.command.ActiveMQQueue">
+             <constructor-arg index="0" value="queueDestnation" />
+       </bean>
+       
+       <!-- topic模式 -->
+       <bean id="msgTopic" class="org.apache.activemq.command.ActiveMQTopic">
+       		 <constructor-arg index="0" value="topicDestnation" />
+       </bean>
+       
+       <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+              <!-- 这个connectionFactory对应的是我们定义的Spring提供的那个ConnectionFactory对象 -->
+              <property name="connectionFactory" ref="connectionFactory"/>
+               <property name="defaultDestination" ref="msgQueue"></property>
+              <property name="pubSubDomain" value="false"/>
+              <!-- <property name="defaultDestination" ref="msgTopic"></property>
+              <property name="pubSubDomain" value="true"/> -->
+       </bean>
+       
+       <!-- 配置自定义监听：MessageListener -->
+       <bean id="msgQueueMessageListener" class="com.winchampion.credit.pure.activeMq.consumer.MsgQueueMessageListener"></bean>
+
+       <!-- 将连接工厂、目标对了、自定义监听注入jms模板 -->
+       <bean id="sessionAwareListenerContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+              <property name="connectionFactory" ref="connectionFactory" />
+              <property name="destination" ref="msgQueue" />
+             <!--  <property name="destination" ref="msgTopic" /> -->
+              <property name="messageListener" ref="msgQueueMessageListener" />
+              <property name="sessionAcknowledgeMode" value="4"></property>
+       </bean>
+	    
+</beans>
