@@ -25,6 +25,9 @@ MySQL事务隔离级别（mysql默认的事务隔离级别为repeatable-read）S
 	可重复读（repeatable-read）
 	串行化（serializable）
 传播行为：
+	 如果你在你的Service层的这个方法中，除了调用了Dao层的方法之外，
+	 还调用了本类的其他的Service方法，那么在调用其他的Service方法的时候，这个事务是怎么规定的呢？
+	 我必须保证我在我方法里调用的这个方法与我本身的方法处在同一个事务中，否则如何保证事物的一致性？
 
 
 事务管理
@@ -32,6 +35,11 @@ MySQL事务隔离级别（mysql默认的事务隔离级别为repeatable-read）S
 		声明式事务管理方式一：基于TransactionProxyFactoryBean
 		声明式事务管理方式二：基于AspectJ的XML方式
 		声明式事务管理方式三：基于注解的方式@Transactional
-		
+	
 Java事务的类型有三种：JDBC事务、JTA(Java Transaction API)事务（支持分布式事务）、容器事务
 	JDBC事务建立在connection之上，即一个jdbc事务不能跨越多个数据库，而jta事务可以
+	
+spring中配置事务的步骤：
+	1.设置数据源datasource
+	2.配置平台型的事务管理器（如：DataSourceTransactionManager）
+	3.声明式的管理事务（如：xml配置文件中使用tx标签配置的拦截器 或者 基于注解的方式@Transactional等等）	
