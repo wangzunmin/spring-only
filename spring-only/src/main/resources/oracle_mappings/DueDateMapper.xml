@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.winchampion.credit.pure.oracle.mapper.DueDateMapper">
+
+	<select id="count" resultType="java.lang.Integer">
+        SELECT
+        COUNT(*) FROM zunmin.T_RFQ_DUE_DATE
+    </select>
+    
+    
+    <select id="queryAll" resultType="com.winchampion.credit.pure.oracle.entity.DueDate">
+    	select 
+    		F_TRADE_DATE as tradeDate,
+    		F_TERNOR_NAME as ternorName,
+    		F_DUE_DATE as dueDate,
+    		F_DUE_DATE_TYPE as dueDateType,
+    		F_TERNOR_TYPE as ternorType
+    	from zunmin.T_RFQ_DUE_DATE where rownum<![CDATA[<]]>10
+    </select>
+</mapper>

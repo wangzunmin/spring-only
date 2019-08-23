@@ -12,19 +12,19 @@
 
 	<!-- <context:annotation-config/> -->
   	<!-- 扫描包起始位置 -->
-    <context:component-scan base-package="com.winchampion.credit.pure.transaction" />
+    <context:component-scan base-package="com.winchampion.credit.pure.oracle" />
     
     <context:property-placeholder ignore-unresolvable="true" location="classpath:mybatis-spring/jeesite.properties"/>
     
     <!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
 	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close"> 
 	    <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
-	    <property name="driverClassName" value="${jdbc.driver}" />
+	    <property name="driverClassName" value="${oracle.jdbc.driver}" />
 	    
 		<!-- 基本属性 url、user、password -->
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
+		<property name="url" value="${oracle.jdbc.url}" />
+		<property name="username" value="${oracle.jdbc.username}" />
+		<property name="password" value="${oracle.jdbc.password}" />
 		
 		<!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="${jdbc.pool.init}" />
@@ -50,13 +50,13 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/mybatis-spring/mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="com.winchampion.credit.pure.transaction"/>
-        <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
+		<property name="typeAliasesPackage" value="com.winchampion.credit.pure.oracle"/>
+        <property name="mapperLocations" value="classpath:/oracle_mappings/**/*.xml"/>
 	</bean>
 	
 	<!-- 代理dao层接口实现类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	  <property name="basePackage" value="com.winchampion.credit.pure.transaction"/>
+	  <property name="basePackage" value="com.winchampion.credit.pure.oracle"/>
 	   <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /> 
 	</bean>
     

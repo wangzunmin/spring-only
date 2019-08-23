@@ -49,7 +49,7 @@
 	</properties>
 	
 	<!-- 设定主仓库，按设定顺序进行查找。 -->
-	<repositories>
+	<!-- <repositories>
 		
 		<repository>
             <id>oschina-repos</id>
@@ -105,7 +105,7 @@
 			<url>https://raw.github.com/thinkgem/repository/master</url>
 		</repository>
 		
-	</repositories>
+	</repositories> -->
 	
 	<!-- 设定插件仓库 -->
 	<pluginRepositories> 
@@ -117,11 +117,11 @@
 			<url>http://192.168.11.36:8888/nexus/content/groups/public</url>
 		</pluginRepository> -->
 		
-		<pluginRepository>
+		<!-- <pluginRepository>
             <id>oschina-repos</id>
             <name>Oschina Releases</name>
             <url>http://maven.oschina.net/content/groups/public</url>
-        </pluginRepository>
+        </pluginRepository> -->
 		
 	</pluginRepositories> 
 	
@@ -327,6 +327,13 @@
 		</dependency>
 		
 		<dependency>
+            <groupId>ojdbc</groupId>
+            <artifactId>ojdbc</artifactId>
+            <version>6</version>
+        </dependency>
+		
+		
+		<dependency>
 			<groupId>redis.clients</groupId>
 			<artifactId>jedis</artifactId>
 			 <version>2.5.1</version>
@@ -335,6 +342,12 @@
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-redis</artifactId>
 		    <version>1.7.0.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.github.dadiyang</groupId>
+		    <artifactId>equator</artifactId>
+		    <version>1.0.1</version>
 		</dependency>
 	</dependencies>
 	

@@ -36,6 +36,8 @@ public class MybatisJunit {
 	private Propagationfour propagationfour;
 	
 	
+	
+	
 
 	@Test
 	public void test1(){
@@ -68,4 +70,6 @@ public class MybatisJunit {
 		propagationfour.notransaction_exception_required_new();
 //		propagationfour.notransaction_required_new_exception();
 	}
+	
+	
 }
