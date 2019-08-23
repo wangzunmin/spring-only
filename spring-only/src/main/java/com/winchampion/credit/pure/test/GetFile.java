@@ -7,11 +7,13 @@ import org.springframework.core.io.ClassPathResource;
 
 public class GetFile {
 	public static void main(String[] args) throws IOException {
-		getClassPathFile();
+		name();
 	}
 
 	public static void name() {
 		ClassLoader classLoader = GetFile.class.getClassLoader();
+		System.out.println(classLoader.getClass().getName());
+		System.out.println(classLoader.getParent().getClass().getName());
 		/**
 		 * getResource()方法会去classpath下找这个文件，获取到url resource,
 		 * 得到这个资源后，调用url.getFile获取到 文件 的绝对路径
