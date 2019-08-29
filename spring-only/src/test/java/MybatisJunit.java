@@ -69,6 +69,7 @@ public class MybatisJunit {
 	public void propagationfour(){
 		propagationfour.notransaction_exception_required_new();
 //		propagationfour.notransaction_required_new_exception();
+		//版本回退标志
 	}
 	
 	
