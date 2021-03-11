@@ -36,20 +36,20 @@ public class AnnoAspect {
 	 */
 	@Before("jointPoint()")
 	public void before(JoinPoint joinPoint) {
-		System.out.println("AnnoAspect before say");
-		Object target = joinPoint.getTarget();//获取目标对象， 即被代理的对象；
-		Object this1 = joinPoint.getThis();////获取AOP生成的代理对象
-		Signature signature = joinPoint.getSignature();
-		System.out.println(joinPoint.getArgs());
-		System.out.println(joinPoint.getSignature().getName());
-		System.out.println(joinPoint.getThis().getClass());
-		System.out.println(joinPoint.getTarget().getClass());
-		System.out.println(joinPoint.toString());
+//		System.out.println("AnnoAspect before say");
+//		Object target = joinPoint.getTarget();//获取目标对象， 即被代理的对象；
+//		Object this1 = joinPoint.getThis();////获取AOP生成的代理对象
+//		Signature signature = joinPoint.getSignature();
+//		System.out.println(joinPoint.getArgs());
+//		System.out.println(joinPoint.getSignature().getName());
+//		System.out.println(joinPoint.getThis().getClass());
+//		System.out.println(joinPoint.getTarget().getClass());
+//		System.out.println(joinPoint.toString());
 	}
 
 	@After("jointPoint()")
 	public void after() {
-		System.out.println("AnnoAspect after say");
+//		System.out.println("AnnoAspect after say");
 	}
 	
 	/**
@@ -58,7 +58,18 @@ public class AnnoAspect {
 	 * @throws Throwable
 	 */
 	@Around("jointPoint()")
-	public void around(ProceedingJoinPoint pjp) throws Throwable{
-		Object proceed = pjp.proceed();
+	public void  around(ProceedingJoinPoint joinPoint) throws Throwable{
+		String methodName = joinPoint.getSignature().getName();
+        try {
+        	 System.out.println("Method Name : [" + methodName + "] ---> AOP around start");
+            long startTimeMillis = System.currentTimeMillis();
+            //调用 proceed() 方法才会真正的执行实际被代理的方法
+            joinPoint.proceed();
+            long execTimeMillis = System.currentTimeMillis() - startTimeMillis;
+            System.out.println("Method Name : [" + methodName + "] ---> AOP method exec time millis : " + execTimeMillis);
+        } catch (Throwable te) {
+        	System.err.println(te.getMessage());
+            throw new RuntimeException(te.getMessage());
+        }
 	}
 }

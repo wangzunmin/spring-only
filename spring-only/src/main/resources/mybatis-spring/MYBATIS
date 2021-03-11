@@ -1,0 +1,50 @@
+JDBC的执行步骤：
+1.获取连接 
+connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+2.预处理Sql，设置参数等（这里用到Statement接口，通过该接口组件发送sql和设置参数）
+String sql = "SELECT * FROM tb_area WHERE `area_name`=?";
+  PreparedStatement sql1 = connection.prepareStatement(sql);
+        sql1.setString(1,"北京");
+3.执行sql
+sql1.execute();
+4.获取返回结果
+ResultSet resultSet = sql1.getResultSet();
+5.关闭资源
+ resultSet.close();
+        sql1.close();;
+        
+        
+        
+
+
+mybatis可以理解是JDBC的一个封装；
+
+以下内容结合com.winchampion.credit.pure.mapper.MybatisTest跟踪源代码
+
+建造者模式：
+	正常一个对象的创建是使用new关键字完成，但是如果创建对象需要的构造参数很多，
+	且不能保证每个参数都是正确的或者不能一次性得到构建所需的所有参数，就需要将构建逻辑从对象本身抽离出来，
+	让对象只关注功能，把构建交给构建类，这样可以简化对象的构建；
+SqlSessionFactoryBuilder：SqlSessionFactory只关注了自己本身的一些功能（如openSession）；而
+SqlSessionFactoryBuilder通过读取配置文件（读取配置文件的方式可选）等一系列操作来简化SqlSessionFactory的创建过程；
+
+1.构建Configuration
+mybatis初始化过程：就是创建Configuration的过程；
+一般基于mybatis配置文件由XmlConfigBuilder去创建一个Configuration；
+
+MappedStatement:用来描述Mapper-SQL映射的对象，最终存储在Configuration中；
+2.根据configuration来创建SqlSessionFactory
+SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+3.从 SqlSessionFactory 中获取 SqlSession
+4.从DefaultSqlSessionFactory生成DefaultSqlSession,并指定其一个Executor（对数据库的增删改查），其中BaseExecutor是一个
+实现了Executor的抽象类，并采用了模板方法模式；
+
+插件：
+理解mybatis源码中的责任链模式：
+mybatis中Configuration将Executor、StatementHandler、ParameterHandler、ResultSetHandler这几个接口
+添加至InterceptorChain中；
+ InterceptorChain担任责任链角色，负责转发请求和返回结果
+ Interceptor接口担任责任人角色，处理请求（具体实现Interceptor接口）
+ 
+
+

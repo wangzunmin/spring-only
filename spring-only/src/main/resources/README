@@ -1,0 +1,26 @@
+spring创建bean的三个基本步骤以及生命周期的过程：
+	1.实例化bean对象{
+		实现了InstantiationAwareBeanPostProcessor接口在实例化bean前后做一些工作
+	}
+	2.填充属性 populateBean
+	3.初始化bean：{
+		invokeAwareMethods方法：执行实现了Aware接口的方法
+		applyBeanPostProcessorsBeforeInitialization方法： 执行实现BeanPostProcessor类的前置方法；
+		invokeInitMethods：第一执行实现InitializingBean的afterPropertiesSet方法；第二利用反射执行用户自定义的初始化方法（xml定义的init-method）
+		applyBeanPostProcessorsAfterInitialization方法： 执行实现BeanPostProcessor类的后置方法；
+	}
+	
+spring中解决循环依赖的问题：
+ 1.什么是循环依赖  ： A依赖B的同时 B也依赖A
+ 2.spring中什么情况下循环依赖可以被处理
+ 	出现循环依赖的bean必须是单例的
+ 	依赖注入的方式不能全是构造器注入的方式（a.全是setter方法， b.构造器和setter方法组合）
+ 3.spring如何解决循环依赖
+ 	简单的循环依赖
+ 		三级缓存： 三个map，
+ 		singletonObjects，一级缓存，存储的是所有创建好了的单例Bean
+ 		earlySingletonObjects，完成实例化，但是还未进行属性注入及初始化的对象
+ 		singletonFactories，提前暴露的一个单例工厂，二级缓存中存储的就是从这个工厂中获取到的对象
+ 	有aop的循环依赖
+ 
+ 

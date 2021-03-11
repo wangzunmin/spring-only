@@ -12,10 +12,10 @@
 
 	<!-- <context:annotation-config/> -->
   	<!-- 扫描包起始位置 -->
-    <context:component-scan base-package="com.winchampion.credit.pure.circle" />
+    <context:component-scan base-package="com.winchampion.credit.pure.proxy" />
     
     <!-- 启用对Aspectj注解的支持 -->
-    <!-- <aop:aspectj-autoproxy  proxy-target-class="true"/> -->
+    <aop:aspectj-autoproxy  proxy-target-class="true"/>
 
 	<bean id="personFactory" class="com.winchampion.credit.pure.test.PersonFactoryBean" init-method="customOnitMethod">
 		<property name="personInfo" value="tom,22"></property>

@@ -10,9 +10,9 @@
 	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 
 
-	<!-- <context:annotation-config/> -->
+	<context:annotation-config/>
   	<!-- 扫描包起始位置 -->
-    <context:component-scan base-package="com.winchampion.credit.pure.oracle" />
+    <context:component-scan base-package="com.winchampion.credit.pure.transaction" />
     
     <context:property-placeholder ignore-unresolvable="true" location="classpath:mybatis-spring/jeesite.properties"/>
     
@@ -50,13 +50,13 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:/mybatis-spring/mybatis-config.xml" />
-		<property name="typeAliasesPackage" value="com.winchampion.credit.pure.oracle"/>
-        <property name="mapperLocations" value="classpath:/oracle_mappings/**/*.xml"/>
+		<property name="typeAliasesPackage" value="com.winchampion.credit.pure.transaction"/>
+        <property name="mapperLocations" value="classpath:/mappings/**/*.xml"/>
 	</bean>
 	
 	<!-- 代理dao层接口实现类 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-	  <property name="basePackage" value="com.winchampion.credit.pure.oracle"/>
+	  <property name="basePackage" value="com.winchampion.credit.pure.transaction"/>
 	   <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" /> 
 	</bean>
     
@@ -77,5 +77,8 @@
 		
 		<!-- 方式二 -->
 		<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+		
+		
+		<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 	<!-- aop 事务 end -->
 </beans>

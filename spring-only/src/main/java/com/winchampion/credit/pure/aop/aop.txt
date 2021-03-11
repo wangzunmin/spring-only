@@ -1,18 +1,24 @@
+动态代理:
+	思路：
+		需要生成一个Java文件  然后编译成class文件 利用反射获取一个对象
+
+
 aop（Aspect Oriented Programming）原理	:
 	通过代理模式为目标对象生产代理对象，并将横切逻辑插入到目标方法执行的前后
 	
 
-	1.连接点 - Joinpoint	接口  连接点是指程序执行过程中的一些点，比如方法调用，异常处理等。
+	1.连接点 - org.aopalliance.intercept.Joinpoint	接口  连接点是指程序执行过程中的一些点，比如方法调用，异常处理等。
 		在 Spring AOP 中，仅支持方法级别的连接点
-	2.切点 - Pointcut 接口 切点是用于选择连接点 ，日常用 AspectJ 表达式对连接点进行选择
+	2.切点 - org.springframework.aop.Pointcut 接口 切点是用于选择连接点（描述用什么方式来选择连接点） ，
+		日常用 AspectJ 表达式对连接点进行选择
 		例：Spring 中提供了一个 AspectJ 表达式切点类 - AspectJExpressionPointcut	
-	3.通知 - Advice 接口 定义的横切逻辑 
+	3.通知 - org.aopalliance.aop.Advice 接口 定义的横切逻辑 
 		spring中通知在何时被调用？ 定义类几种通知类型：
-			前置通知（Before advice）- 在目标方便调用前执行通知
+			前置通知（Before advice）- 在目标方便调用前执行通知 
 			后置通知（After advice）- 在目标方法完成后执行通知
 			返回通知（After returning advice）- 在目标方法执行成功后，调用通知
 			异常通知（After throwing advice）- 在目标方法抛出异常后，执行通知
-			环绕通知（Around advice）- 在目标方法调用前后均可执行自定义逻辑
+			环绕通知（Around advice）- 在目标方法调用前后均可执行自定义逻辑  org.aopalliance.intercept.MethodInterceptor
 	4 切面 - Aspect 切点和通知的整合 切点解决了 where 问题，通知解决了 when 和 how 问题
 		spring中是Advisor接口和切面很相似
 	5 织入 - Weaving 在切点的引导下，将通知逻辑插入到方法调用上，使得我们的通知逻辑在方法调用时得以执行
@@ -23,3 +29,15 @@ aop（Aspect Oriented Programming）原理	:
 	
 	spring aop 使用：
 		Spring 提供了两种配置 AOP 的方式，一种是通过 XML 进行配置，另一种是注解（基于@Aspect注解）
+		
+	
+	spring创建aop代理的方式：核心代码createAopProxy().getProxy()
+		ProxyFactoryBean
+		ProxyFactory
+		Auto-proxy（核心类AbstractAutoProxyCreator）：通过Bean的后置处理器，在创建Bean的最后一步对Bean进行代理，并将代理对象放入到容器中
+			基于Java注解的方式：@EnableAspectJAutoProxy （在spring容器中注册AnnotationAwareAspectJAutoProxyCreator），
+			基于xml的方式：<aop:aspectj-autoproxy />
+			
+			
+			
+  SpringAop中会借助AspectJ框架的思想，引入了@Aspect等注解的使用；

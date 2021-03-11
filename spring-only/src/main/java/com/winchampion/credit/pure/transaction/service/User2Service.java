@@ -1,5 +1,7 @@
 package com.winchampion.credit.pure.transaction.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,5 +42,10 @@ public class User2Service {
 		throw new RuntimeException();
 	}
 	
+	
+	public void select() {
+		List<User2> list = user2Mapper.queryUser2();
+		System.out.println(list.size());
+	}
 	
 }

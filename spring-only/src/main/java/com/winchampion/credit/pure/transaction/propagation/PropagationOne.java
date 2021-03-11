@@ -30,14 +30,15 @@ public class PropagationOne {
 	 */
 	public void notransaction_exception_required_required() {
 		User1 user1 = new User1();
-		user1.setName("张三");
-		user1Service.insert(user1);
-
-		User2 user2 = new User2();
-		user2.setName("李四");
-		user2Service.insert(user2);
-
-		throw new RuntimeException();
+		user1.setName("张三26");
+//		user1Service.insert(user1);
+//
+//		User2 user2 = new User2();
+//		user2.setName("李四");
+//		user2Service.insert(user2);
+		user1Service.testInsert(user1);
+		
+//		throw new RuntimeException();
 	}
 	
 	/**
@@ -54,4 +55,7 @@ public class PropagationOne {
         user2.setName("李四");
         user2Service.insertException(user2);
     }
+	
+	
+
 }

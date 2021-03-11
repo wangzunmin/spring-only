@@ -5,5 +5,12 @@
 		insert into user2(name)
 		values(#{name})
 	</insert>
+	
+	<select id="queryUser2" resultType="com.winchampion.credit.pure.transaction.entity.User2">
+	 SELECT
+            `id`, `name`
+        FROM
+            user2
+	</select>
 
 </mapper>

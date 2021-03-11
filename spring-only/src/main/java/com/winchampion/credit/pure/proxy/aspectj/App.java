@@ -2,7 +2,7 @@ package com.winchampion.credit.pure.proxy.aspectj;
 
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("app")
 public class App {
 	public void say() {
 		

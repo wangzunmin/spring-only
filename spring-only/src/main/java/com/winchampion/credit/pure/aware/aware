@@ -1,0 +1,7 @@
+Spring中的Aware（知道的，已感知的，意识到的）接口：
+	BeanNameAware---实现BeanNameAware的Bean感知到自身的BeanName（对应Spring容器的BeanId属性）属性
+	ApplicationContextAware
+	BeanFactoryAware等
+能感知到所有Aware前面单词的含义
+
+参考aware包下的测试案例
